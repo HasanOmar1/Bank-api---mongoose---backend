@@ -16,8 +16,8 @@ import {
 const router = express.Router();
 
 router.get("/", getAllUsers);
-router.get("/filter-cash/less", filterByCashLessThan);
-router.get("/filter-cash/more", filterByCashMoreThan);
+router.get("/filter-cash/less-than", filterByCashLessThan);
+router.get("/filter-cash/more-than", filterByCashMoreThan);
 router.get("/:id", getUserById);
 
 router.post("/", createUser);
