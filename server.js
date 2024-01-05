@@ -16,7 +16,7 @@ app.use("/api/v1/bank", userRouter);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 9999;
+const PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.CONNECTION_URI).then(() => {
   app.listen(PORT, () => {
