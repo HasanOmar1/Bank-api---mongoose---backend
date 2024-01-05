@@ -32,7 +32,7 @@ export const getAllUsers = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.find({ id: id });
     if (!user) {
       res.status(STATUS_CODE.NOT_FOUND);
       throw new Error("User not found");
@@ -43,12 +43,13 @@ export const getUserById = async (req, res, next) => {
   }
 };
 
+// extra
 // deletes user
 // Delete:  /api/v1/bank/:id
 export const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const userToDelete = await User.findByIdAndDelete(id);
+    const userToDelete = await User.findOneAndDelete({ id: id });
     if (!userToDelete) {
       res.status(STATUS_CODE.NOT_FOUND);
       throw new Error("User with this ID is not found");
@@ -59,12 +60,13 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
+// extra
 // updates user's fields
 // PUT:  /api/v1/bank/:id
 export const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+    const updatedUser = await User.findOneAndUpdate({ id: id }, req.body, {
       new: true,
     });
     if (!updatedUser) {
@@ -82,24 +84,23 @@ export const updateUser = async (req, res, next) => {
 export const updateCredit = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
-
-    if (!user) {
-      res.status(STATUS_CODE.NOT_FOUND);
-      throw new Error("User with this ID is not found");
-    }
 
     if (+req.query.credit < 0) {
       res.status(STATUS_CODE.BAD_REQUEST);
       throw new Error("Failed to add credit , only positive credits allowed!");
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
+    const user = await User.findOneAndUpdate(
+      { id: id },
       { $set: { credit: +req.query.credit } },
       { new: true }
     );
-    res.send(updatedUser);
+
+    if (!user) {
+      res.status(STATUS_CODE.NOT_FOUND);
+      throw new Error("User with this ID is not found");
+    }
+    res.send(user);
   } catch (error) {
     next(error);
   }
@@ -110,7 +111,7 @@ export const updateCredit = async (req, res, next) => {
 export const depositCash = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findOne({ id: id });
 
     if (!user) {
       res.status(STATUS_CODE.NOT_FOUND);
@@ -123,8 +124,8 @@ export const depositCash = async (req, res, next) => {
     }
 
     if (user.isActive) {
-      const updatedUser = await User.findByIdAndUpdate(
-        id,
+      const updatedUser = await User.findOneAndUpdate(
+        { id: id },
         { $set: { cash: user.cash + +req.query.cash } },
         { new: true }
       );
@@ -141,7 +142,7 @@ export const depositCash = async (req, res, next) => {
 export const withdrawMoney = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findOne({ id: id });
 
     if (!user) {
       res.status(STATUS_CODE.NOT_FOUND);
@@ -160,8 +161,8 @@ export const withdrawMoney = async (req, res, next) => {
 
     if (user.isActive) {
       if (user.cash > +req.query.money) {
-        const updatedUser = await User.findByIdAndUpdate(
-          id,
+        const updatedUser = await User.findOneAndUpdate(
+          { id: id },
           { $set: { cash: user.cash - +req.query.money } },
           { new: true }
         );
@@ -169,8 +170,8 @@ export const withdrawMoney = async (req, res, next) => {
       }
 
       if (+req.query.money > user.cash) {
-        const updatedUser = await User.findByIdAndUpdate(
-          id,
+        const updatedUser = await User.findOneAndUpdate(
+          { id: id },
           {
             $set: {
               cash: 0,
@@ -197,8 +198,8 @@ export const transferMoney = async (req, res, next) => {
     const { senderId } = req.params;
     const { recipientId } = req.params;
 
-    const sender = await User.findById(senderId);
-    const recipient = await User.findById(recipientId);
+    const sender = await User.findOne({ id: senderId });
+    const recipient = await User.findOne({ id: recipientId });
 
     if (!sender || !recipient) {
       res.status(STATUS_CODE.NOT_FOUND);
@@ -222,16 +223,16 @@ export const transferMoney = async (req, res, next) => {
       }
 
       if (sender.cash > +req.query.money) {
-        const updatedSender = await User.findByIdAndUpdate(
-          senderId,
+        const updatedSender = await User.findOneAndUpdate(
+          { id: senderId },
           {
             $set: { cash: sender.cash - +req.query.money },
           },
           { new: true }
         );
 
-        const updatedRecipient = await User.findByIdAndUpdate(
-          recipientId,
+        const updatedRecipient = await User.findOneAndUpdate(
+          { id: recipientId },
           {
             $set: { credit: recipient.credit + +req.query.money },
           },
@@ -243,8 +244,8 @@ export const transferMoney = async (req, res, next) => {
       }
 
       if (+req.query.money > sender.cash) {
-        const updatedSender = await User.findByIdAndUpdate(
-          senderId,
+        const updatedSender = await User.findOneAndUpdate(
+          { id: senderId },
           {
             $set: {
               cash: 0,
@@ -254,8 +255,8 @@ export const transferMoney = async (req, res, next) => {
           { new: true }
         );
 
-        const updatedRecipient = await User.findByIdAndUpdate(
-          recipientId,
+        const updatedRecipient = await User.findOneAndUpdate(
+          { id: recipientId },
           {
             $set: { credit: recipient.credit + +req.query.money },
           },
