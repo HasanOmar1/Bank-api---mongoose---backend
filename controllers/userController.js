@@ -8,7 +8,13 @@ export const createUser = async (req, res, next) => {
     const user = await User.create(req.body);
     res.status(STATUS_CODE.CREATED).send(user);
   } catch (error) {
-    next(error);
+    if (error.code === 11000) {
+      //unique
+      res.status(STATUS_CODE.CONFLICT);
+      throw new Error("This email is already taken");
+    } else {
+      next(error);
+    }
   }
 };
 
