@@ -7,6 +7,8 @@ import {
   filterByCashMoreThan,
   getAllUsers,
   getUserById,
+  sortByHighCash,
+  sortByLowCash,
   transferMoney,
   updateCredit,
   updateUser,
@@ -18,6 +20,8 @@ const router = express.Router();
 router.get("/", getAllUsers);
 router.get("/filter-cash/less-than", filterByCashLessThan);
 router.get("/filter-cash/more-than", filterByCashMoreThan);
+router.get("/sort-low", sortByLowCash);
+router.get("/sort-high", sortByHighCash);
 router.get("/:id", getUserById);
 
 router.post("/", createUser);

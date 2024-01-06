@@ -43,6 +43,29 @@ export const getUserById = async (req, res, next) => {
   }
 };
 
+//  sort
+// Get:  /api/v1/bank/sort-low
+
+export const sortByLowCash = async (req, res, next) => {
+  try {
+    const users = await User.find().sort({ cash: 1 });
+    res.send(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//  sort
+// Get:  /api/v1/bank/sort-high
+export const sortByHighCash = async (req, res, next) => {
+  try {
+    const users = await User.find().sort({ cash: -1 });
+    res.send(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // extra
 // deletes user
 // Delete:  /api/v1/bank/:id
