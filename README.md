@@ -18,8 +18,8 @@ I have json data with users , each user has :
 
 ## Links:
 
-Backend Link : https://bank-api-backend-using-mongoose.onrender.com/
-Frontend Link : https://bank-mongoose-frontend.netlify.app/
+- Backend Link : https://bank-api-backend-using-mongoose.onrender.com/
+- Frontend Link : https://bank-mongoose-frontend.netlify.app/
 
 ---
 
