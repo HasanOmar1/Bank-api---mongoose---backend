@@ -2,8 +2,9 @@ import STATUS_CODE from "../constants/statusCodes.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import newUser from "../models/newUserModel.js";
+
 // Creates new user
-// Create:  /api/v1/bank
+// Create:  /api/v1/users/create
 export const createUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -35,6 +36,8 @@ export const createUser = async (req, res, next) => {
   }
 };
 
+// Login
+//  /api/v1/users/login
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -59,6 +62,8 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
+//  gets user by token
+//  /api/v1/users/token
 export const getUserByToken = async (req, res, next) => {
   try {
     if (req.user === null) {
@@ -77,10 +82,13 @@ export const getUserByToken = async (req, res, next) => {
   }
 };
 
+// generates random token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
+// Deletes  user
+// Get:  /api/v1/users/id
 export const deleteNewUsers = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -96,7 +104,7 @@ export const deleteNewUsers = async (req, res, next) => {
 };
 
 // Gets all users info
-// Get:  /api/v1/bank
+// Get:  /api/v1/users
 export const getNewUsers = async (req, res, next) => {
   try {
     const users = await newUser.find();
@@ -105,59 +113,6 @@ export const getNewUsers = async (req, res, next) => {
       throw new Error("No users in the database");
     }
     res.send(users);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Gets user's info by id
-// Get:  /api/v1/bank/:id
-export const getUserById = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const user = await newUser.find({ id: id });
-    if (!user) {
-      res.status(STATUS_CODE.NOT_FOUND);
-      throw new Error("User not found");
-    }
-    res.send(user);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// extra
-// deletes user
-// Delete:  /api/v1/bank/:id
-export const deleteUser = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const userToDelete = await newUser.findOneAndDelete({ id: id });
-    if (!userToDelete) {
-      res.status(STATUS_CODE.NOT_FOUND);
-      throw new Error("User with this ID is not found");
-    }
-    res.send(userToDelete);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// extra
-// updates user's fields
-// PUT:  /api/v1/bank/:id
-export const updateUserTest = async (req, res, next) => {
-  //   console.log(req.user);
-  try {
-    // const { id } = req.params;
-    const updatedUser = await newUser.findOneAndUpdate(req.user.id, req.body, {
-      new: true,
-    });
-    if (!updatedUser) {
-      res.status(STATUS_CODE.NOT_FOUND);
-      throw new Error("User with this ID is not found");
-    }
-    res.send(updatedUser);
   } catch (error) {
     next(error);
   }
