@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import User from "../models/UsersModel.js";
 import asyncHandler from "express-async-handler";
 import newUser from "../models/newUserModel.js";
 
@@ -17,6 +16,7 @@ export const protect = asyncHandler(async (req, res, next) => {
       res.status(401).send("Not authorized");
     }
   }
+
   if (!token) {
     res.status(401);
     throw new Error("User is not authorized or token is missing");
