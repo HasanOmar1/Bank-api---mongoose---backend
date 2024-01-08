@@ -112,12 +112,14 @@ I have json data with users , each user has :
 
 ## Things to know:
 
-- When a user withdraws money from his account , first he will withdraw from his cash and if he doesn't have anymore cash
+- When a client withdraws money from his account , first he will withdraw from his cash and if he doesn't have anymore cash
   he will withdraw from his credit.
 
-- When a user transfers money from his bank account to another user , he will transfer using cash and if he doesn't have cash anymore he will transfer his credit , and the other user will always get the money as credit and not as cash.
+- When a client transfers money from his bank account to another client , he will transfer using cash and if he doesn't have cash anymore he will transfer his credit , and the other client will always get the money as credit and not as cash.
 
 - You cannot deposit , withdraw and transfer from/to inActive Clients!
+
+- Each user has a unique email.
 
 ---
 
