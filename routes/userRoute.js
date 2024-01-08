@@ -15,13 +15,6 @@ import {
   withdrawMoney,
 } from "../controllers/userController.js";
 import { protect } from "../middlewares/authMiddleware.js";
-// import {
-//   createUser,
-//   deleteNewUsers,
-//   getMe,
-//   getNewUsers,
-//   loginUser,
-// } from "../controllers/newUserController.js";
 
 const router = express.Router();
 
@@ -36,14 +29,13 @@ router.get("/:id", getUserById);
 router.post("/", addClient);
 
 router.get("/", getAllUsers);
+router.delete("/:id", deleteUser);
 router.use(protect);
 router.put("/:id", updateUser); //<<<<<<<
 router.put("/update-credit/:id", updateCredit);
 router.put("/deposit-cash/:id", depositCash);
 router.put("/withdraw/:id", withdrawMoney);
 router.put("/transfer/from/:senderId/to/:recipientId", transferMoney);
-
-router.delete("/:id", deleteUser);
 
 // router.post("/create", createUser);
 // router.post("/login", loginUser);
