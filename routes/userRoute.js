@@ -20,8 +20,8 @@ const router = express.Router();
 
 // api/v1/bank
 
-router.get("/filter-cash/less-than", filterByCashLessThan); // not using it in frontend
-router.get("/filter-cash/more-than", filterByCashMoreThan); // not using it in frontend
+router.get("/filter-cash/less-than", filterByCashLessThan); // not using it in frontend .
+router.get("/filter-cash/more-than", filterByCashMoreThan); // not using it in frontend .
 router.get("/sort-low", sortByLowCash);
 router.get("/sort-high", sortByHighCash);
 router.get("/:id", getUserById);
@@ -31,7 +31,7 @@ router.post("/", addClient);
 router.get("/", getAllUsers);
 router.delete("/:id", deleteUser);
 
-router.put("/:id", updateUser); // not using it in frontend
+router.put("/:id", updateUser); // not using it in frontend .
 // private routes
 router.use(protect);
 router.put("/update-credit/:id", updateCredit);
