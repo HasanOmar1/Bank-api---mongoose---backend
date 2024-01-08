@@ -20,8 +20,8 @@ const router = express.Router();
 
 // api/v1/bank
 
-router.get("/filter-cash/less-than", filterByCashLessThan);
-router.get("/filter-cash/more-than", filterByCashMoreThan);
+router.get("/filter-cash/less-than", filterByCashLessThan); // not using it it frontend
+router.get("/filter-cash/more-than", filterByCashMoreThan); // not using it it frontend
 router.get("/sort-low", sortByLowCash);
 router.get("/sort-high", sortByHighCash);
 router.get("/:id", getUserById);
@@ -30,17 +30,13 @@ router.post("/", addClient);
 
 router.get("/", getAllUsers);
 router.delete("/:id", deleteUser);
+
+router.put("/:id", updateUser); // not using it it frontend
+// private routes
 router.use(protect);
-router.put("/:id", updateUser); //<<<<<<<
 router.put("/update-credit/:id", updateCredit);
 router.put("/deposit-cash/:id", depositCash);
 router.put("/withdraw/:id", withdrawMoney);
 router.put("/transfer/from/:senderId/to/:recipientId", transferMoney);
-
-// router.post("/create", createUser);
-// router.post("/login", loginUser);
-// router.get("/user/me", protect, getMe);
-// router.get("/get/users", getNewUsers);
-// router.delete("/users/:id", deleteNewUsers);
 
 export default router;

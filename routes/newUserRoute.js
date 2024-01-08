@@ -11,6 +11,7 @@ import { protect } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 // api/v1/users
+
 // public routers
 router.post("/create", createUser);
 router.post("/login", loginUser);
