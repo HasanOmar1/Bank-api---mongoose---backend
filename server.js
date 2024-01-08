@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 import userRouter from "./routes/userRoute.js";
 import fs from "fs";
+import newUserRouter from "./routes/newUserRoute.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/bank", userRouter);
+app.use("/api/v1/users", newUserRouter);
 
 app.use(errorHandler);
 

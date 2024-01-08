@@ -3,7 +3,7 @@ import User from "../models/UsersModel.js";
 
 // Creates new user
 // Create:  /api/v1/bank
-export const createUser = async (req, res, next) => {
+export const addClient = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
     res.status(STATUS_CODE.CREATED).send(user);
@@ -32,7 +32,7 @@ export const getAllUsers = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.find({ id: id });
+    const user = await User.findOne({ id: id });
     if (!user) {
       res.status(STATUS_CODE.NOT_FOUND);
       throw new Error("User not found");

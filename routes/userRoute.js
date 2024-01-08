@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  createUser,
+  addClient,
   deleteUser,
   depositCash,
   filterByCashLessThan,
@@ -14,24 +14,41 @@ import {
   updateUser,
   withdrawMoney,
 } from "../controllers/userController.js";
+import { protect } from "../middlewares/authMiddleware.js";
+// import {
+//   createUser,
+//   deleteNewUsers,
+//   getMe,
+//   getNewUsers,
+//   loginUser,
+// } from "../controllers/newUserController.js";
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
+// api/v1/bank
+
 router.get("/filter-cash/less-than", filterByCashLessThan);
 router.get("/filter-cash/more-than", filterByCashMoreThan);
 router.get("/sort-low", sortByLowCash);
 router.get("/sort-high", sortByHighCash);
 router.get("/:id", getUserById);
 
-router.post("/", createUser);
+router.post("/", addClient);
 
-router.put("/:id", updateUser);
+router.get("/", getAllUsers);
+router.use(protect);
+router.put("/:id", updateUser); //<<<<<<<
 router.put("/update-credit/:id", updateCredit);
 router.put("/deposit-cash/:id", depositCash);
 router.put("/withdraw/:id", withdrawMoney);
 router.put("/transfer/from/:senderId/to/:recipientId", transferMoney);
 
 router.delete("/:id", deleteUser);
+
+// router.post("/create", createUser);
+// router.post("/login", loginUser);
+// router.get("/user/me", protect, getMe);
+// router.get("/get/users", getNewUsers);
+// router.delete("/users/:id", deleteNewUsers);
 
 export default router;
